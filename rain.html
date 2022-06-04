@@ -39,15 +39,12 @@
                 const res = await fetch(url + "?ym=" + ym + "&day=" + day + "&hour=" + hour + "&min=" + min);
                 const json = await res.json();
                 console.log(json);
-                const str = JSON.stringify(json.data, null, "\t");
+                const str = JSON.stringify(json, null, "\t");
                 console.log(str);
-                /*
-                    const json = JSON.parse(data);
-                    document.getElementById("tk").insertAdjacentHTML("afterbegin",json.tk);
-                    document.getElementById("tm").insertAdjacentHTML("afterbegin",json.tm);
-                    document.getElementById("bm").insertAdjacentHTML("afterbegin",json.bm);
-                    document.getElementById("bw").insertAdjacentHTML("afterbegin",json.bw);
-                */
+                etk.insertAdjacentHTML("afterbegin",json.tk);
+                etm.insertAdjacentHTML("afterbegin",json.tm);
+                ebm.insertAdjacentHTML("afterbegin",json.bm);
+                ebw.insertAdjacentHTML("afterbegin",json.bw);
             }
         </script>
     </head>
