@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <style>
+            td{
+                text-align: center;
+            }
+            tr{
+                border: inset;
+            }
+        </style>
+        <script>
+            let mm;
+            const url = "https://script.google.com/macros/s/AKfycbyhcHypndeODxNvP5SCsMuh5AfpgTqiq0-h3hmytUZDuSiRw76_ji-MY0on48m0_ttX/exec";
+            window.onload = async function(){
+                const etk = document.getElementById("tk");
+                const etm = document.getElementById("tm");
+                const ebm = document.getElementById("bm");
+                const ebw = document.getElementById("bw");
+                etk.removeChild(etk.firstChild);
+                etm.removeChild(etm.firstChild);
+                ebm.removeChild(ebm.firstChild);
+                ebw.removeChild(ebw.firstChild);
+                const date = new Date();
+                let ym = date.getFullYear();
+                const month = date.getMonth()+1;
+                if(month < 10){
+                    ym = ym + "0" + month;
+                }else{
+                    ym = ym + String(month);
+                }
+                const day = date.getDate();
+                const hour = date.getHours();
+                const min = date.getMinutes();
+                const res = await fetch(url + "?ym=" + ym + "&day=" + day + "&hour=" + hour + "&min=" + min);
+                const json = await res.json();
+                console.log(json);
+                const str = JSON.stringify(json.data, null, "\t");
+                console.log(str);
+                /*
+                    const json = JSON.parse(data);
+                    document.getElementById("tk").insertAdjacentHTML("afterbegin",json.tk);
+                    document.getElementById("tm").insertAdjacentHTML("afterbegin",json.tm);
+                    document.getElementById("bm").insertAdjacentHTML("afterbegin",json.bm);
+                    document.getElementById("bw").insertAdjacentHTML("afterbegin",json.bw);
+                */
+            }
+        </script>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td>上牧</td>
+                <td id="tk"><span>1</span></td>
+            </tr>
+            <tr>
+                <td colspan="2">↓</td>
+            </tr>
+            <tr>
+                <td rowspan="2">水無瀬</td>
+                <td id="tm"><span>2</span></td>
+            </tr>
+            <tr>
+                <td id="bm"><span>3</span></td>
+            </tr>
+            <tr>
+                <td colspan="2">↓</td>
+            </tr>
+            <tr>
+                <td>若山台センター</td>
+                <td id="bw"><span>4</span></td>
+            </tr>
+        </table>
+    </body>
+</html>
