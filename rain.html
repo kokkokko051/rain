@@ -13,7 +13,10 @@
         <script>
             let mm;
             const url = "https://script.google.com/macros/s/AKfycbyhcHypndeODxNvP5SCsMuh5AfpgTqiq0-h3hmytUZDuSiRw76_ji-MY0on48m0_ttX/exec";
-            window.onload = async function(){
+            window.onload = function(){
+                run();
+            }
+            async function run(){
                 const etk = document.getElementById("tk");
                 const etm = document.getElementById("tm");
                 const ebm = document.getElementById("bm");
