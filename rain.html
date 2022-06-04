@@ -36,6 +36,7 @@
                 const day = date.getDate();
                 const hour = date.getHours();
                 const min = date.getMinutes();
+                console.log(ym, day, hour, min)
                 const res = await fetch(url + "?ym=" + ym + "&day=" + day + "&hour=" + hour + "&min=" + min);
                 const json = await res.json();
                 console.log(json);
