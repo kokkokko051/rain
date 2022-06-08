@@ -11,45 +11,78 @@
             }
         </style>
         <script>
-            let mm;
             const url = "https://script.google.com/macros/s/AKfycbyhcHypndeODxNvP5SCsMuh5AfpgTqiq0-h3hmytUZDuSiRw76_ji-MY0on48m0_ttX/exec";
+            const date = new Date();
+            let ym = date.getFullYear();
+            const month = date.getMonth()+1;
+            if(month < 10){
+                ym = ym + "0" + month;
+            }else{
+                ym = ym + String(month);
+            }
+            let day = date.getDate();
+            let hour = date.getHours();
+            let min = date.getMinutes();
+            let etk, etm, ebm, ebw, now, elems;
             window.onload = function(){
+            	etk = document.getElementById("tk");
+                etm = document.getElementById("tm");
+                ebm = document.getElementById("bm");
+                ebw = document.getElementById("bw");
+                now = document.getElementById("now");
+                elems = [etk, etm, ebm, ebw, now];
                 run();
             }
             async function run(){
-                const etk = document.getElementById("tk");
-                const etm = document.getElementById("tm");
-                const ebm = document.getElementById("bm");
-                const ebw = document.getElementById("bw");
-                etk.removeChild(etk.firstChild);
-                etm.removeChild(etm.firstChild);
-                ebm.removeChild(ebm.firstChild);
-                ebw.removeChild(ebw.firstChild);
-                const date = new Date();
-                let ym = date.getFullYear();
-                const month = date.getMonth()+1;
-                if(month < 10){
-                    ym = ym + "0" + month;
-                }else{
-                    ym = ym + String(month);
+            	for(let i = 0;i < elems.length; i++){
+                	elems[i].removeChild(elems[i].firstChild);
                 }
-                const day = date.getDate();
-                const hour = date.getHours();
-                const min = date.getMinutes();
-                console.log(ym, day, hour, min)
+            	let m;
+                if (min < 10){
+                	m = ":0";
+                }else{
+                	m = ":";
+                }
+                now.insertAdjacentHTML("afterbegin",hour + m + min)
                 const res = await fetch(url + "?ym=" + ym + "&day=" + day + "&hour=" + hour + "&min=" + min);
                 const json = await res.json();
-                console.log(json);
-                const str = JSON.stringify(json, null, "\t");
-                console.log(str);
-                etk.insertAdjacentHTML("afterbegin",json.tk);
-                etm.insertAdjacentHTML("afterbegin",json.tm);
-                ebm.insertAdjacentHTML("afterbegin",json.bm);
-                ebw.insertAdjacentHTML("afterbegin",json.bw);
+                elems[0].insertAdjacentHTML("afterbegin",json.tk);
+                elems[1].insertAdjacentHTML("afterbegin",json.tm);
+                elems[2].insertAdjacentHTML("afterbegin",json.bm);
+                elems[3].insertAdjacentHTML("afterbegin",json.bw);
+            }
+            function back (){
+            	min-=5;
+                if(min < 0){
+                	min+=60;
+                    hour--;
+                }
+                run();
+            }
+            function next (){
+            	min+=5;
+                if (min >= 60){
+                	min-=60;
+                    hour++;
+                }
+                run();
+            }
+            function search(){
+            	const inDate = document.getElementById("inDate").value;
+                const inTime = document.getElementById("inTime").value;
+                ym = inDate.substr(0,4) + inDate.substr(5,2);
+                day = inDate.substr(8,2);
+                if (day.charAt() == "0"){
+                	day = day.replace(/0/,"");
+                }
+                hour = inTime.substr(0,2);
+                min = inTime.substr(3,2);
+                run();
             }
         </script>
     </head>
     <body>
+    	<p id="now"><span>2022</span></p>
         <table>
             <tr>
                 <td>上牧</td>
@@ -73,5 +106,13 @@
                 <td id="bw"><span>4</span></td>
             </tr>
         </table>
+        <br>
+        <button onclick="back();">5分前</button>
+        <button onclick="next();">5分後</button>
+        <br>
+        <hr>
+        <input type="date" id="inDate">
+        <input type="time" id="inTime">
+        <button onclick="search();">検索</button>
     </body>
 </html>
